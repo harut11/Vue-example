@@ -1,0 +1,2 @@
+<p>Dear {{ $name }} for verifying your email please click <a href="http://localhost:8080/verify?token={{$token}}">there</a> or go to
+    <a href="http://localhost:8080/verify?token={{$token}}">http://localhost:8080/verify?token={{$token}}"</a></p>

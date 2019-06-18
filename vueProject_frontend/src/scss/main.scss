@@ -1,0 +1,42 @@
+@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap-vue/src/index.scss";
+
+a {
+  cursor: pointer;
+}
+
+.box-content {
+  margin: 50px 0;
+}
+
+header {
+  width: 100%;
+  background-color: #4db6ac;
+  height: 80px;
+  color: #fff;
+  #app-logo {
+    font-size: 35px;
+    font-weight: bold;
+  }
+  nav {
+    ul {
+      list-style: none;
+    }
+  }
+}
+
+footer {
+  width: 100%;
+  background-color: #4db6ac;
+  height: 50px;
+  color: #fff;
+}
+
+.posts {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-between;
+  .item {
+    margin-bottom: 15px;
+  }
+}
