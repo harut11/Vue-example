@@ -87,9 +87,6 @@
                 this.user = this.$store.getters['getUserData'];
             }
         },
-        computed: {
-
-        },
         components: {
             InfiniteLoading,
         },

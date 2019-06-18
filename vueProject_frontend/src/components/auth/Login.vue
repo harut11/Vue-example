@@ -19,8 +19,8 @@
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>
-                <small class="form-text text-muted text-danger mt-3">{{errorText}}</small>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <small class="form-text text-danger mt-3">{{errorText}}</small>
+                <button type="submit" class="btn btn-primary mt-2">Login</button>
             </form>
         </div>
     </div>
@@ -54,6 +54,7 @@
                         this.$router.push('/');
                         resolve();
                     }).catch(err => {
+                        this.errorText = err.response.data.message;
                         reject();
                     });
                 });

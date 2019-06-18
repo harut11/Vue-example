@@ -1,5 +1,6 @@
 <template>
   <div>
+    <vue-topprogress ref="topProgress"></vue-topprogress>
     <Header></Header>
     <router-view/>
     <Footer></Footer>
@@ -10,10 +11,13 @@
   import Header from './components/templates/Header'
   import Footer from './components/templates/Footer'
   import axios from 'axios'
+  import Vue from 'vue'
+  import { vueTopprogress } from 'vue-top-progress'
+
+  Vue.use(vueTopprogress);
 
   export default {
-    components : {Header, Footer},
-    name: 'App',
+    components : {Header, Footer, vueTopprogress},
     created: function () {
       axios.interceptors.response.use(undefined, function (err) {
         return new Promise(function (resolve, reject) {
@@ -25,6 +29,14 @@
           }
         })
       });
+    },
+    mounted() {
+      this.$refs.topProgress.start();
+
+      // Use setTimeout for demo
+      setTimeout(() => {
+        this.$refs.topProgress.done();
+      }, 2000)
     }
 }
 </script>
