@@ -15,10 +15,7 @@
                            placeholder="Password" v-model="password" v-validate="'required|min:6|max:35'">
                     <span class="error-div">{{ errors.first('title') }}</span>
                 </div>
-                <div class="form-group form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                </div>
+                <a href="" @click.prevent="goForgot">Forgot password</a>
                 <small class="form-text text-danger mt-3">{{errorText}}</small>
                 <button type="submit" class="btn btn-primary mt-2">Login</button>
             </form>
