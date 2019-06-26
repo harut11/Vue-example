@@ -6,7 +6,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         myTestData: null,
-        userDetails: null
+        userDetails: null,
+        forgotMessage: ''
     },
     actions: {
         getTestDataFromAPI(context, url){
@@ -28,6 +29,18 @@ export default new Vuex.Store({
                 resolve()
             })
 
+        },
+        reset(context, email){
+            return new Promise((resolve, reject) => {
+                axios.get('reset', {
+                    params: {
+                        email: email
+                    }
+                }).then(res => {
+                    context.commit('setForgotMessage', res.data.message);
+                    resolve();
+                })
+            });
         }
     },
     mutations: {
@@ -37,6 +50,9 @@ export default new Vuex.Store({
         setUserData(state, data) {
             state.userDetails = data;
             localStorage.setItem('user', JSON.stringify(data))
+        },
+        setForgotMessage(state, data) {
+            state.forgotMessage = data;
         }
     },
     getters: {
@@ -48,6 +64,9 @@ export default new Vuex.Store({
                 state.userDetails = JSON.parse(localStorage.getItem('user'))
             }
             return state.userDetails;
+        },
+        getForgotMessage(state) {
+            return state.forgotMessage;
         }
     }
 })

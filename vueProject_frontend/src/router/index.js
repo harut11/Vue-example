@@ -7,7 +7,9 @@ import  CreatePost from '@/components/CreatePost'
 import EditPost from '@/components/EditPost'
 import Login from '@/components/auth/Login'
 import Register from '@/components/auth/Register'
+import Forgot from '@/components/auth/Forgot'
 import Verify from '@/components/auth/Verify'
+import Reset from '@/components/auth/Reset'
 import { TokenService } from "../store/service";
 
 Vue.use(Router);
@@ -25,7 +27,10 @@ const router =  new Router({
     {path: '/user-login', name: 'Login',component: Login, meta: {public: true, onlyWhenLoggedOut: true}},
     {path: '/user-register', name: 'Register', component: Register, meta: {public: true, onlyWhenLoggedOut: true}},
     {path: '/verify', name: 'Verify', component: Verify, meta: {public: true, onlyWhenLoggedOut: true}},
-    {path: '/logout', name: 'Logout', meta: {public: false, onlyWhenLoggedOut: false},},
+    {path: '/logout', name: 'Logout', meta: {public: false, onlyWhenLoggedOut: false}},
+    {path: '/password-forgot', name: 'Forgot', component: Forgot, meta: {public: true, onlyWhenLoggedOut: true}},
+    {path: '/reset', name: 'Reset', meta: {public: true, onlyWhenLoggedOut: true}},
+    {path: '/setPassword', name: 'SetPassword', component: Reset, meta: {public: true, onlyWhenLoggedOut: true}}
   ]
 });
 

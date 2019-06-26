@@ -13,6 +13,8 @@ use Illuminate\Http\Request;
 |
 */
 Route::resource('/posts', 'Api\PostController');
+Route::get('reset', 'Api\AuthController@reset');
+Route::get('setPassword', 'Api\AuthController@setPassword');
 
 Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('logout', 'Api\AuthController@logout');

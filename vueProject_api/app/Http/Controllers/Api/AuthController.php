@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\RegisterRequest;
+use App\Mail\ResetEmail;
 use App\Mail\VrificationEmail;
 use App\Models\User;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -22,7 +24,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register', 'verify']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'verify', 'reset', 'setPassword']]);
     }
 
     /**
@@ -106,6 +108,55 @@ class AuthController extends Controller
     public function refresh()
     {
         return $this->respondWithToken(auth()->refresh());
+    }
+
+    public function reset(Request $request)
+    {
+        $validator = Validator::make($request->only('email'), [
+            'email' => 'required|email|exists:users,email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 401);
+        } else {
+            $token = str_random(100);
+            $email = $request->get('email');
+
+            DB::table('password_resets')->updateOrInsert([
+                'email' => $email
+            ], [
+                'email' => $email,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]);
+
+            $user = User::query()->where('email', $email)->first();
+
+            Mail::to($email)->send(new ResetEmail($user, $token));
+
+            return response()->json(['message' => 'Please check your email!'], 201);
+        }
+    }
+
+    public function setPassword(Request $request)
+    {
+        $this->validate($request, [
+            'token' => 'required|string|exists:password_resets,token',
+            'password' => 'required|min:6|max:35'
+        ]);
+
+        $info = DB::table('password_resets')->where('token', $request->get('token'));
+
+        $infoFirst = $info->first();
+
+        User::query()->where('email', $infoFirst->email)
+            ->update([
+                'password' => bcrypt($request->get('password'))
+            ]);
+
+        $info->delete();
+
+        return response()->json(['message' => 'Your password was successfully changed'], 201);
     }
 
     /**

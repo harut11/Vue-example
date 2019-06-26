@@ -7,7 +7,7 @@
                     <input type="email" class="form-control" id="exampleInputEmail1" data-vv-name="email"
                            aria-describedby="emailHelp" placeholder="Enter email" v-model="email" v-validate="'required|email'">
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                    <span class="error-div">{{ errors.first('title') }}</span>
+                    <span class="error-div">{{ errors.first('email') }}</span>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Password</label>
@@ -15,7 +15,7 @@
                            placeholder="Password" v-model="password" v-validate="'required|min:6|max:35'">
                     <span class="error-div">{{ errors.first('title') }}</span>
                 </div>
-                <a href="" @click.prevent="goForgot">Forgot password</a>
+                <a @click.prevent="goForgot">Forgot password</a>
                 <small class="form-text text-danger mt-3">{{errorText}}</small>
                 <button type="submit" class="btn btn-primary mt-2">Login</button>
             </form>
@@ -55,6 +55,9 @@
                         reject();
                     });
                 });
+            },
+            goForgot() {
+                this.$router.push({name: 'Forgot'});
             }
         }
     }
